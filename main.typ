@@ -1,11 +1,13 @@
 #import "template.typ" as template
 
 #show : doc => template.main(
+  abstract-cn-doc: lorem(1000),
+  abstract-cn-keywords: lorem(10),
   doc
 )
 
-= 摘要
+= 绪论
 
-== 二级标题
+== 绪论二级标题
 
 #lorem(1000)

@@ -1,3 +1,6 @@
+// ========================
+// === Global variables ===
+// ========================
 #let 字号 = (
   初号: 42pt,
   小初: 36pt,
@@ -21,10 +24,16 @@
 #let 字体 = (
   // 仿宋: ("Times New Roman", "FangSong"),
   宋体: ("Times New Roman", "SimSun"),
-  // 黑体: ("Times New Roman", "SimHei"),
+  黑体: ("Times New Roman", "SimHei"),
   // 楷体: ("Times New Roman", "KaiTi"),
   // 代码: ("New Computer Modern Mono", "Times New Roman", "SimSun"),
 )
+
+#let counter-page = counter(page)
+
+// ==================
+// === Components ===
+// ==================
 
 #let cover() = {
   {
@@ -113,7 +122,47 @@
   pagebreak()
 }
 
-#let main(doc) = {
+#let abstract-cn(abstract-cn-doc, abstract-cn-keywords) = {
+  set page(
+    header: locate(loc => {
+      set align(center)
+      set text(size: 字号.五号)
+      [山东大学硕士学位论文]
+      v(-1em)
+      line(length: 100%, stroke: 1pt)
+    }),
+    footer: locate(loc => {
+      set align(center)
+      counter-page.display("I")
+    })
+  )
+  counter-page.update(1)
+  {
+    set text(font: 字体.黑体, size: 字号.小三)
+    set align(center)
+    v(24pt)
+    [摘 #h(2em) 要]
+    v(18pt)
+  }
+  set par(justify: true)
+  {
+    set text(size: 字号.小四)
+    set par(first-line-indent: 2em)
+
+    abstract-cn-doc
+  }
+  {
+    set par(first-line-indent: 0em)
+    [关键词：]
+    abstract-cn-keywords
+  }
+}
+
+#let main(
+  abstract-cn-doc: [],
+  abstract-cn-keywords: [],
+  doc
+  ) = {
   set align(top)
   set text(font: 字体.宋体, size: 字号.小四, lang: "zh")
   set par(leading: 1em, first-line-indent: 2em)
@@ -151,5 +200,6 @@
   )
   // [#cover() <__noheader__>]
   announcement()
+  abstract-cn(abstract-cn-doc, abstract-cn-keywords)
   doc
 }
