@@ -77,8 +77,9 @@
       {
         set align(center)
         grid(
-          columns: 2,
-          ..([论文作者签名：], [导师签名：],).map(utils-mapper)
+          columns: 3,
+          // ..([论文作者签名：], [日期：],).map(utils-mapper)
+          utils-mapper("论文作者签名："), h(3em), utils-mapper("日期：")
         )
       }
     }
@@ -93,7 +94,6 @@
     {
       set text(size: 字号.四号)
       {
-        set align(left)
         [
           本人同意学校保留或向国家有关部门或机构送交论文的印刷件和电子版，允许论文被查阅和借阅；本人授权山东大学可以将本学位论文的全部或部分内容编入有关数据库进行检索，可以采用影印、缩印或其他复制手段保存论文和汇编本学位论文。
 
@@ -102,7 +102,6 @@
       }
       v(1em)
       {
-        let temp = "_" * 9
         set align(right)
         grid(
           columns: 3,
@@ -121,36 +120,36 @@
   set page(
     paper: "a4",
     margin: (top: 2.8cm, bottom: 2.5cm, left: 2.5cm, right: 2.5cm),
-    header: locate(loc => {
-      let page-counter = counter(page)
-      let matches = query(<__noheader__>, loc)
-      let current = page-counter.at(loc)
-      let has-label = matches.any(m =>
-        page-counter.at(m.location()) == current
-      )
-
-      if not has-label {
-        set align(center)
-        set text(size: 字号.五号)
-        [山东大学硕士学位论文]
-        v(-1em)
-        line(length: 100%, stroke: 1pt)
-      }
-    }),
-    footer: locate(loc => {
-      let page-counter = counter(page)
-      let current = page-counter.at(loc)
-      if current.first() < 3 {
-        return
-      }
-      if current.first() == 3 {
-        page-counter.update(1)
-      }
-      set align(center)
-      counter(page).display()
-    })
+    // header: locate(loc => {
+    //   let page-counter = counter(page)
+    //   let matches = query(<__noheader__>, loc)
+    //   let current = page-counter.at(loc)
+    //   let has-label = matches.any(m =>
+    //     page-counter.at(m.location()) == current
+    //   )
+    //
+    //   if not has-label {
+    //     set align(center)
+    //     set text(size: 字号.五号)
+    //     [山东大学硕士学位论文]
+    //     v(-1em)
+    //     line(length: 100%, stroke: 1pt)
+    //   }
+    // }),
+    // footer: locate(loc => {
+    //   let page-counter = counter(page)
+    //   let current = page-counter.at(loc)
+    //   if current.first() < 3 {
+    //     return
+    //   }
+    //   if current.first() == 3 {
+    //     page-counter.update(1)
+    //   }
+    //   set align(center)
+    //   counter(page).display()
+    // })
   )
-  [#cover() <__noheader__>]
-  [#announcement() <__noheader__>]
+  // [#cover() <__noheader__>]
+  announcement()
   doc
 }
