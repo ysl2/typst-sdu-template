@@ -145,8 +145,8 @@
     v(18pt)
   }
   set par(justify: true)
+  set text(size: 字号.小四)
   {
-    set text(size: 字号.小四)
     set par(first-line-indent: 2em)
 
     abstract-cn-doc
@@ -198,7 +198,7 @@
     //   counter(page).display()
     // })
   )
-  // [#cover() <__noheader__>]
+  cover()
   announcement()
   abstract-cn(abstract-cn-doc, abstract-cn-keywords)
   doc
