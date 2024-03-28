@@ -35,35 +35,86 @@
 // === Components ===
 // ==================
 
-#let cover() = {
+#let cover(id-school, title-cn, title-en) = {
+  let stroke = 0.02857em
+  let brown = rgb("#872d26")
+
   {
     set text(size: 字号.四号)
     set par(leading: 20pt, first-line-indent: 0em)
+
     grid(
       columns: (50%, 50%),
       {
         set align(left)
         box[
           #set align(left)
-          分类号：
+          #text(font: 字体.宋体, stroke: stroke + brown)[分类号：]
 
-          密#h(1em)级：
+          #text(font: 字体.宋体, stroke: stroke + brown)[密#h(1em)级：]
+          #text(font: 字体.黑体, stroke: stroke)[公开]
         ]
       },
       {
         set align(right)
         box[
           #set align(left)
-          单位代码：10422
 
-          学#h(2em)号：
+          #text(font: 字体.宋体, stroke: stroke + brown)[单位代码：10422]
+
+          #text(font: 字体.宋体, stroke: stroke + brown)[学#h(2em)号：]
+          #text(font: 字体.宋体, stroke: stroke, id-school)
         ]
       }
     )
   }
   v(1em)
-  image("cover.png")
-  align(center, text(size: 字号.三号, [（专业学位）]))
+  {
+    set align(center)
+    set text(size: 字号.三号)
+
+    image("cover.png", width: 100%)
+    v(-1em)
+    text(font: 字体.黑体, size: 字号.三号, fill: brown)[（专业学位）]
+    linebreak()
+    text(font: 字体.宋体, size: 字号.小二, stroke: stroke + brown)[论文题目：]
+    text(font: 字体.黑体, size: 字号.小二, stroke: stroke, title-cn)
+    linebreak()
+    text(font: 字体.宋体, size: 字号.小二, stroke: stroke, title-en)
+  }
+  v(1em)
+
+  let fieldvalue(value) = [
+    #set align(center)
+    #set text(font: 字体.黑体, stroke: stroke)
+    #grid(
+      rows: (auto, auto),
+      row-gutter: 0.2em,
+      value,
+      line(length: 100%, stroke: 1pt + brown)
+    )
+  ]
+
+  {
+    set align(center)
+    set text(size: 字号.四号)
+    grid(
+      columns: (120pt, 120pt),
+      row-gutter: 1em,
+      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
+      fieldvalue([于 松 黎]),
+
+      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
+      fieldvalue([于 松 黎]),
+
+      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
+      fieldvalue([于 松 黎]),
+
+      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
+      fieldvalue([于 松 黎]),
+    )
+  }
+
   pagebreak()
 }
 
@@ -138,7 +189,7 @@
   )
   counter-page.update(1)
   {
-    set text(font: 字体.黑体, size: 字号.小三)
+    set text(font: 字体.黑体, size: 字号.小三, weight: "semibold")
     set align(center)
     v(24pt)
     [摘 #h(2em) 要]
@@ -159,6 +210,9 @@
 }
 
 #let main(
+  id-school: "",
+  title-cn: "",
+  title-en: "",
   abstract-cn-doc: [],
   abstract-cn-keywords: [],
   doc
@@ -198,7 +252,8 @@
     //   counter(page).display()
     // })
   )
-  cover()
+
+  cover(id-school, title-cn, title-en)
   announcement()
   abstract-cn(abstract-cn-doc, abstract-cn-keywords)
   doc
