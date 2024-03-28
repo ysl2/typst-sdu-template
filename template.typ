@@ -35,7 +35,7 @@
 // === Components ===
 // ==================
 
-#let cover(id-school, title-cn, title-en) = {
+#let cover(id-school, title-cn, title-en, author, affiliation, major, teacher-big, teacher-small, year, month, day) = {
   let stroke = 0.02857em
   let brown = rgb("#872d26")
 
@@ -82,39 +82,62 @@
     linebreak()
     text(font: 字体.宋体, size: 字号.小二, stroke: stroke, title-en)
   }
-  v(1em)
-
-  let fieldvalue(value) = [
-    #set align(center)
-    #set text(font: 字体.黑体, stroke: stroke)
-    #grid(
-      rows: (auto, auto),
-      row-gutter: 0.2em,
-      value,
-      line(length: 100%, stroke: 1pt + brown)
-    )
-  ]
-
+  v(2em)
   {
+    let fieldkey(key) = {
+      let temp = ()
+      for c in key {
+        temp.push(c)
+      }
+      key = temp.join([#h(1em)])
+      text(font: 字体.宋体, size: 字号.四号, stroke: stroke + brown, key)
+    }
+
+    let fieldvalue(value) = {
+      let temp = ()
+      for c in value {
+        temp.push(c)
+      }
+      value = temp.join(" ")
+
+      set align(center)
+      set text(font: 字体.黑体, stroke: stroke)
+      grid(
+        rows: (auto, auto),
+        row-gutter: 0.6em,
+        value,
+        line(length: 100%, stroke: 1pt + brown)
+      )
+    }
+
     set align(center)
     set text(size: 字号.四号)
     grid(
-      columns: (120pt, 120pt),
-      row-gutter: 1em,
-      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
-      fieldvalue([于 松 黎]),
+      columns: (130pt, 155pt),
+      row-gutter: 1.5em,
 
-      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
-      fieldvalue([于 松 黎]),
+      fieldkey("作者姓名"), fieldvalue(author),
 
-      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
-      fieldvalue([于 松 黎]),
+      fieldkey("培养单位"), fieldvalue(affiliation),
 
-      text(font: 字体.宋体, stroke: stroke + brown)[作#h(1em)者#h(1em)姓#h(1em)名],
-      fieldvalue([于 松 黎]),
+      fieldkey("专业名称"), fieldvalue(major),
+
+      fieldkey("指导教师"), fieldvalue(teacher-big),
+
+      fieldkey("合作导师"), fieldvalue(teacher-small),
     )
   }
-
+  v(1em)
+  {
+    set align(center)
+    set text(size: 字号.小二)
+    text(font: 字体.黑体, stroke: stroke, year + h(1em))
+    text(font: 字体.宋体, stroke: stroke + brown)[年#h(1em)]
+    text(font: 字体.黑体, stroke: stroke, month + h(1em))
+    text(font: 字体.宋体, stroke: stroke + brown)[月#h(1em)]
+    text(font: 字体.黑体, stroke: stroke, day + h(1em))
+    text(font: 字体.宋体, stroke: stroke + brown)[日]
+  }
   pagebreak()
 }
 
@@ -138,13 +161,12 @@
         set align(center)
         grid(
           columns: 3,
-          // ..([论文作者签名：], [日期：],).map(utils-mapper)
           utils-mapper("论文作者签名："), h(3em), utils-mapper("日期：")
         )
       }
     }
   }
-  v(10em)
+  v(12em)
   {
     {
       set align(center)
@@ -213,6 +235,14 @@
   id-school: "",
   title-cn: "",
   title-en: "",
+  author: "",
+  affiliation: "",
+  major: "",
+  teacher-big: "",
+  teacher-small: "",
+  year: "",
+  month: "",
+  day: "",
   abstract-cn-doc: [],
   abstract-cn-keywords: [],
   doc
@@ -253,7 +283,7 @@
     // })
   )
 
-  cover(id-school, title-cn, title-en)
+  cover(id-school, title-cn, title-en, author, affiliation, major, teacher-big, teacher-small, year, month, day)
   announcement()
   abstract-cn(abstract-cn-doc, abstract-cn-keywords)
   doc
